@@ -1,27 +1,54 @@
-// Go Routines:
+//Channels in Go :
 
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
-// function: Prints numbers from 1-3 along  with the passed string.
-func count(s string) {
-	for i := 1; i <= 3; i++ {
-		time.Sleep(100 * time.Millisecond)
-		fmt.Println(s, " : ", i)
-	}
+func recieve(ch chan int) {
+	x := <-ch
+
+	fmt.Println(x)
 }
+
+func give(ch chan int) {
+	ch <- 10
+
+}
+
+func finished(ch chan bool) {
+	ch <- true
+}
+
 func main() {
 
-	fmt.Println("Main started...")
-	// Go routines
-	go count("1st goroutine")
-	go count("2nd goroutine")
+	ch := make(chan int)
+	go recieve(ch)
+	ch <- 90 //nothing
 
-	//wait for goroutine to finish before main goroutine ends:
-	time.Sleep(time.Second)
-	fmt.Println("...Main Finished")
+	go give(ch)
+	fmt.Println(<-ch)
+
+	//x := <-ch
+	fmt.Println("Main is back on track!")
+
+	isDone := make(chan bool)
+	go finished(isDone)
+
+	if <-isDone {
+		fmt.Println("Yeah ! function is done")
+	}
+
+	//Burffered channels
+	uch := make(chan int, 3)
+
+	uch <- 1
+	uch <- 2
+	uch <- 3
+
+	for i := 0; i < 3; i++ {
+		fmt.Println(<-uch)
+	}
+
+	uch <- 89
+	fmt.Println(<-uch)
 }
