@@ -1,0 +1,5 @@
+video Links:
+q1(Interfaces) - https://youtu.be/8anxGO7HN_s
+q2(Channels) - https://youtu.be/EC-yVECf7ok
+q3(Goroutines) - https://youtu.be/-68GOldU4ko
+q4(WaitGroups) - https://youtu.be/EKvyOZhcORs
